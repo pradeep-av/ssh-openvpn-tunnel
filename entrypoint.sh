@@ -43,5 +43,5 @@ autossh -M 0 -N \
   -o "StrictHostKeyChecking=no" \
   -o "ServerAliveInterval=30" \
   -o "ServerAliveCountMax=3" \
-  -R ${REMOTE_PORT}:${TARGET_HOST}:${TARGET_PORT} \
+  -R 0.0.0.0:${REMOTE_PORT}:${TARGET_HOST}:${TARGET_PORT} \
   ${SSH_USER}@${SSH_HOST}
