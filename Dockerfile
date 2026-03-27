@@ -8,6 +8,11 @@ RUN apt-get update && \
         openssh-client \
         ca-certificates \
         bash \
+        procps \
+        netcat-openbsd \
+        lsof \
+        curl \
+        tini \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -15,4 +20,4 @@ WORKDIR /app
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
