@@ -41,6 +41,38 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - test -f /tmp/tunnel_healthy
+            initialDelaySeconds: 40
+            timeoutSeconds: 3
+            periodSeconds: 15
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - test -f /tmp/tunnel_healthy
+            initialDelaySeconds: 20
+            timeoutSeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - '-c'
+                  - |
+                    echo "Stopping SSH tunnel..."
+                    pkill -TERM ssh || true
+                    sleep 10
           volumeMounts:
             - name: dev-net-tun
               mountPath: /dev/net/tun
